@@ -1,0 +1,7 @@
+<div id="global-menu-{{ menu_column }}">
+	<ul class="global-nav clearfix">
+	{% for mitem in mitems %}
+			<li {% ifequal mitem.url current %}class="selected"{% endifequal %}><a href="{{ mitem.url }}"><span>{{ mitem.label|safe }}</span></a></li>
+	{% endfor %}
+	</ul>
+</div>

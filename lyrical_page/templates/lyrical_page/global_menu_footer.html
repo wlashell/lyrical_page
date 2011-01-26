@@ -1,0 +1,10 @@
+<ul id="global-footer">
+	{% for mitem in mitems %}
+		{% if not mitem.is_page %}
+			<li>
+				<a href="{{ mitem.url }}">{{ mitem.label|safe }}</a>
+				{% if forloop.last %}{% else %}|{% endif %}
+			</li>
+		{% endif %}
+	{% endfor %}
+</ul>

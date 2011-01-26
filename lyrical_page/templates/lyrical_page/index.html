@@ -1,0 +1,80 @@
+{% extends "page/base.html" %}
+
+{% load page_block %}
+{% load menu_tags %}
+
+
+{% block meta_keyword %}
+Otaku, Sushi, Otaku Sushi, Otaku Sushi Restaurant, reservations, japan, japanese, asian, food, dining, fine dining,
+sushi, sushi bar, japanese food, asian food, seafood, fish, oyster, eel, uni, salmon, squid, unagi, tuna, raw fish,
+omasake, freshest fish, az, sake, rice wine, japanese sake, japanese rice win, japanese alcohol, arizona, chandler,
+85286, 2430 S. Gilbert Rd. Ste. 5 Chandler AZ 85286, japanese restaurant, sashimi, sake, group dining, private dining,
+fusion, traditional, non traditional, non-traditional, japanese cuisine, nigiri, rolls, maki, lunch, happy hour, beer,
+cocktail, japanese restaurants menu, tokyo restaurants, sushi restaurants, omakase, chef's choice, chef choice, chefs choice,
+fresh, freshness, freshest, freshest dish, fresh dish, 5 course, 5 course meal, 5 course dining, adventure, adventurous dining,
+experimental dish, experimental dishes, experimental dining
+{% endblock meta_keyword %}
+
+{% block meta_description %}
+Otaku Sushi is located at 2430 S. Gilbert Rd. Ste. 5, Chandler AZ 85286. Enjoy a spectacular taste of fresh
+sushi and sashimi, and experience traditional and non traditional Japanese cuisine that is served in a stylish
+Japanese restaurant.
+{% endblock meta_description %}
+
+{% block meta-extra %}
+<link href="http://www.OtakuSushi.com/" rel="canonical"/>
+{% endblock meta-extra %}
+
+{% block script-extra %}
+<link href="/static/css/jquery.s3Slider.css" rel="stylesheet" type="text/css"/>
+<script src="/static/js/s3Slider.js" type="text/javascript"></script>  
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#slider1').s3Slider({
+			timeOut: 4000//milliseconds
+		});
+	});
+</script>
+{% endblock script-extra %}
+
+{% block content-main-top %}
+{% if gallery%}
+<div id="content-upper" class="clear">
+	<div id="slider1">
+		<ul id="slider1Content">
+			{% for image in gallery %}
+				<script type="text/javascript">
+					$(document).ready(function(){
+						/* important to be same as image height & width */
+						//$('#slider1').css({ 'width': '{{ image.get_width }}px', 'height': '{{ image.get_height }}px' });
+					});
+				</script>
+				<li class="slider1Image">
+					<a href="">
+						<img src="{{ image.img.url }}" alt="{{ image.label }}" title="{{ image.label }}"/>
+					</a>
+					<span class="bold {% cycle 'right' 'bottom' 'left' 'top' %}">
+						<div class="bold">{{ image.label }}</div>
+						{% if image.description %}{{ image.description }}{% endif %}
+					</span>
+			  </li>
+		  {% endfor %}
+		  <div class="clear slider1Image"></div>
+	  </ul>
+	</div>
+</div>
+{% endif %}
+{% endblock content-main-top %}
+
+
+{% block content-main-bottom-right %}
+{% if latest.0 %}
+<a href="/latest-news/">
+	<h2>Latest News</h2>
+	<div class="small alignr">{{ latest.0.last_modified|date:"D M d, Y h:iA" }}</div>
+	<h3>{{ latest.0.title|safe|slice:"30" }}...</h3>
+	<br/>
+	<div>{{ latest.0.content|safe|slice:"100" }}...</div>
+</a>
+{% endif %}
+{% endblock content-main-bottom-right %}

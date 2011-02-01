@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -20,6 +21,8 @@ def site_page(request, url, extra_context=None):
     else:
         template_path = 'lyrical_page/site_page.html'
     
+    if sitepage.login_required and not request.user.is_authenticated():
+        return redirect_to_login(request.path)
     
     context_dict = {'sitepage': sitepage}
     if extra_context:

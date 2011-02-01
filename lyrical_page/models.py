@@ -1,3 +1,4 @@
+from django.contrib.auth.views import redirect_to_login
 from django.db import models
 
 
@@ -31,7 +32,8 @@ class SitePage(models.Model):
     sitemenu_label = models.CharField(max_length=255, blank=True, null=True)
     sitemenu_weight = models.IntegerField(blank=True, null=True)
     is_index = models.BooleanField(blank=True, default=False)
-    
+    login_required = models.BooleanField(blank=True, default=False)    
+
     def __unicode__(self):
         return u'%s' % (self.url)
     

@@ -1,0 +1,8 @@
+<div id="menu-{{ code }}">
+	{% ifequal show_label "True" %}<div class="menu-label">{{ menu.label }}</div>{% endifequal %}
+	<ul class="clearfix">
+	{% for mitem in items %}
+			<li {% ifequal mitem.url current %}class="selected"{% endifequal %}><a href="{{ mitem.url }}"><span>{{ mitem.label|safe }}</span></a></li>
+	{% endfor %}
+	</ul>
+</div>

@@ -5,7 +5,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic.simple import direct_to_template
 
-from lyrical_page.models import SitePage, SiteBlock, SiteMenuItem, SiteMenu, SitePageAlias
+from site_content.models import SitePage, SiteBlock, SiteMenuItem, SiteMenu, SitePageAlias
 
 def site_page(request, url, extra_context=None):
     if not url == '/':
@@ -46,7 +46,7 @@ def site_page(request, url, extra_context=None):
     if sitepage.template:
         template_path = sitepage.template
     else:
-        template_path = 'lyrical_page/site_page.html'
+        template_path = 'site_content/site_page.html'
     
     if sitepage.login_required and not request.user.is_authenticated():
         return redirect_to_login(request.path)

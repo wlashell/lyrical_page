@@ -1,5 +1,6 @@
 from django.contrib.admin import site, ModelAdmin, StackedInline
 
+from site_content import ENABLE_BUILTIN_MEDIA
 from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect
 
 class SitePageAliasInline(StackedInline):

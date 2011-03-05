@@ -1,6 +1,6 @@
 from django.contrib.admin import site, ModelAdmin, StackedInline
 
-from lyrical_page.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect
+from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect
 
 class SitePageAliasInline(StackedInline):
     model = SitePageAlias

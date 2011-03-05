@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
 from django.db import models
 
-
 class SiteMenu(models.Model):
     label = models.CharField(max_length=255, unique=True)
     code = models.CharField(max_length=255, unique=True)

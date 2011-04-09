@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from lyrical_page.models import SiteBlock
+from site_content.models import SiteBlock
 
 register = template.Library()
 

@@ -1,6 +1,6 @@
 from django import template
 
-from lyrical_page.models import SiteMenu, SiteMenuItem, SitePage
+from site_content.models import SiteMenu, SiteMenuItem, SitePage
 
 register = template.Library()
 

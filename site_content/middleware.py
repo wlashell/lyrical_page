@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.conf import settings
 
-from lyrical_page.views import site_page
+from site_content.views import site_page
 
 class SitePageFallbackMiddleware(object):
     def process_response(self, request, response):

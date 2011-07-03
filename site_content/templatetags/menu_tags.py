@@ -1,10 +1,10 @@
 from django import template
 
-from lyrical_page.models import SiteMenu, SiteMenuItem, SitePage
+from site_content.models import SiteMenu, SiteMenuItem, SitePage
 
 register = template.Library()
 
-@register.inclusion_tag('lyrical_page/tag_nav.html')
+@register.inclusion_tag('site_content/tag_nav.html')
 def get_menu(code, current='', show_label='True'):
     try:
         menu = SiteMenu.objects.get(code=code)
@@ -22,7 +22,7 @@ def get_menu(code, current='', show_label='True'):
     
     return {'items': items, 'current': current, 'code': code, 'menu': menu, 'show_label': show_label}    
 
-@register.inclusion_tag('lyrical_page/tag-global-nav.html')
+@register.inclusion_tag('site_content/tag-global-nav.html')
 def global_nav(current=''):
     menu = SiteMenu.objects.get(code='global-nav')
     
@@ -37,7 +37,7 @@ def global_nav(current=''):
         
     return {'items': items, 'current': current }
 
-@register.inclusion_tag('lyrical_page/global_menu.html')
+@register.inclusion_tag('site_content/global_menu.html')
 def global_nav_menu_left(current=''):
     sitemenu = SiteMenu.objects.get(code='global-nav-menu-left')
     
@@ -55,7 +55,7 @@ def global_nav_menu_left(current=''):
     
     return {'mitems': retval, 'current': current, 'menu_column' : 'left' }
 
-@register.inclusion_tag('lyrical_page/global_menu.html')
+@register.inclusion_tag('site_content/global_menu.html')
 def global_nav_menu_right(current=''):
     sitemenu = SiteMenu.objects.get(code='global-nav-menu-right')
     
@@ -70,7 +70,7 @@ def global_nav_menu_right(current=''):
     
     return {'mitems': retval, 'current': current, 'menu_column' : 'right' }
 
-@register.inclusion_tag('lyrical_page/global_menu_footer.html')
+@register.inclusion_tag('site_content/global_menu_footer.html')
 def global_footer():
     sitemenus = SiteMenu.objects.filter(code__in=['global-nav-menu-left','global-nav-menu-right', 'footer'])
     

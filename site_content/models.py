@@ -2,6 +2,12 @@ from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
 from django.db import models
 
+class SitePosition(models.Model):
+    code = models.CharField(max_length=255, unique=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.code
+    
 class SiteMenu(models.Model):
     label = models.CharField(max_length=255, unique=True)
     code = models.CharField(max_length=255, unique=True)
@@ -68,12 +74,7 @@ class SitePageRedirect(models.Model):
 class SiteBlock(models.Model):
     code = models.CharField(max_length=255, unique=True)
     data = models.TextField(blank=True, null=True)
+    siteposition = models.ForeignKey(SitePosition, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % (self.code)
-    
-class SitePosition(models.Model):
-    code = models.CharField(max_length=255, unique=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.code

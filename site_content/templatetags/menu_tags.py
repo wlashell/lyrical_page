@@ -18,7 +18,11 @@ def get_menu(code, current='', show_label='True'):
         
     mitems = SitePage.objects.filter(sitemenu=menu).order_by('sitemenu_weight')
     for mitem in mitems:
-        items.insert(mitem.sitemenu_weight, {'url':mitem.url, 'weight': mitem.sitemenu_weight, 'label': mitem.sitemenu_label})
+        mitem_url = mitem.url
+        if mitem.is_index:
+            mitem_url = '/'
+            
+        items.insert(mitem.sitemenu_weight, {'url':mitem_url, 'weight': mitem.sitemenu_weight, 'label': mitem.sitemenu_label})
     
     return {'items': items, 'current': current, 'code': code, 'menu': menu, 'show_label': show_label}    
 

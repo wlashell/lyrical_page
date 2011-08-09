@@ -32,7 +32,7 @@ class SitePageAdmin(ModelAdmin):
     
     if ENABLE_BUILTIN_MEDIA:
         class Media:
-            js = ('/static/admin/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
+            js = ('/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
         
     def __unicode__(self):
         return '%s' % 'administration'

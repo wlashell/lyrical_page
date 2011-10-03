@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='lyrical_page',
-    version='1.1.0',
+    version='1.3.0',
     description='A jazzy skin for the Django Admin-Interface.',
     author='Will LaShell',
     author_email='wlashell@lyrical.net',

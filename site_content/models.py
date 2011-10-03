@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
+from django.contrib.sites.models import Site
 from django.db import models
 
 class SiteMenu(models.Model):

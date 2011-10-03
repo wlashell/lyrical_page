@@ -21,6 +21,7 @@ class SiteMenuItem(models.Model):
         return u'%s' % self.label
 
 class SitePage(models.Model):
+    site = models.ForeignKey(Site)
     url = models.CharField(max_length=255)
     title = models.CharField(max_length=255, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)

@@ -80,8 +80,6 @@ class SitePageFallbackMiddleware(object):
                 SITE_ID.value = _default_site_id
 
             cache.set(cache_key, SITE_ID.value, 5*60)
-            
-            print '%s' % SITE_ID.value
     
     def process_response(self, request, response):
         if response.status_code != 404:

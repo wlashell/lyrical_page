@@ -36,12 +36,15 @@ class SitePage(models.Model):
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
     
+    class Meta:
+        unique_together = ('site', 'url')
+    
     def __unicode__(self):
         return u'%s' % (self.url)
     
     def save(self, force_insert=False, force_update=False):
         if self.is_index:
-            for sitepage in SitePage.objects.all():
+            for sitepage in SitePage.objects.filter(site=self.site):
                 sitepage.is_index = False
                 sitepage.save()
 

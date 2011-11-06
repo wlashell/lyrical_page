@@ -72,6 +72,7 @@ class SitePageRedirect(models.Model):
     
 class SiteBlock(models.Model):
     code = models.CharField(max_length=255, unique=True)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
     data = models.TextField(blank=True, null=True)
     
     def __unicode__(self):

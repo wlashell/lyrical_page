@@ -1,0 +1,9 @@
+Lyrical Page is a website development app for the Django framework.
+Documentation is fairly nonexistant at this point. Please send any
+questions to wlashell@lyrical.net or post a bug on github.
+
+Installation is fairly small, you add site_content to your 
+INSTALLED_APPS tuple, and include the SitePageFallback middleware
+in your MIDDLEWARE tuple.
+
+Will LaShell <wlashell@lyrical.net>

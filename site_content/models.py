@@ -82,6 +82,7 @@ class SiteBlock(models.Model):
     siteposition = models.ForeignKey(SitePosition, blank=True, null=True)
     code = models.CharField(max_length=255, unique=True)
     css_class = models.CharField(max_length=255, blank=True, null=True)
+    enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     data = models.TextField(blank=True, null=True)
     
     def __unicode__(self):

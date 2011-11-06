@@ -80,6 +80,7 @@ class SiteBlock(models.Model):
 class SitePosition(models.Model):
     code = models.CharField(max_length=255, unique=True)
     weight = models.IntegerField(default=0)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
     
     def __unicode__(self):
         return u'%s' % self.code

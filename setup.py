@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='lyrical_page',
-    version='1.1.0',
-    description='A jazzy skin for the Django Admin-Interface.',
+    version='1.2.1',
+    description='Website content system based on a mashup of ideas from the Django contrib flatpage appp, joomla!, and many years of systems development..',
     author='Will LaShell',
     author_email='wlashell@lyrical.net',
     url='http://www.lyrical.net/projects/lyrical_page/',

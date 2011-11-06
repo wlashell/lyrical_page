@@ -63,6 +63,7 @@ class SiteBlockAdmin(ModelAdmin):
     save_on_top = True
     list_display = ('code', 'css_class', 'siteposition')
     list_editable = ('css_class', 'siteposition')
+    list_filter = ('siteposition',)
     class Media:
         js = ('/static/admin/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
 
@@ -74,3 +75,10 @@ site.register(SiteBlock, SiteBlockAdmin)
 class SitePageRedirect(ModelAdmin):
     list_display = ('sitepage', 'url')
     save_on_top = True
+
+class SitePositionAdmin(ModelAdmin):
+    save_on_top = True
+    list_display = ('code', 'weight', 'css_class')
+    list_editable = ('weight', 'css_class')
+    
+site.register(SitePosition, SitePositionAdmin)

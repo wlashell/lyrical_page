@@ -1,0 +1,7 @@
+<div{% if siteposition.css_class %} class="{{ siteposition.css_class }}"{% endif %}>
+{% for siteblock in siteposition.siteblock_set.all %}
+<div{% if siteblock.css_class %} class="{{ siteblock.css_class }}"{% endif %}>
+{{ siteblock.data|safe }}
+</div>
+{% endfor %}
+</div>

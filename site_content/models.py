@@ -70,14 +70,6 @@ class SitePageRedirect(models.Model):
     def __unicode__(self):
         return u'%s' % self.url
     
-class SiteBlock(models.Model):
-    code = models.CharField(max_length=255, unique=True)
-    css_class = models.CharField(max_length=255, blank=True, null=True)
-    data = models.TextField(blank=True, null=True)
-    
-    def __unicode__(self):
-        return u'%s' % (self.code)
-    
 class SitePosition(models.Model):
     code = models.CharField(max_length=255, unique=True)
     weight = models.IntegerField(default=0)
@@ -85,3 +77,12 @@ class SitePosition(models.Model):
     
     def __unicode__(self):
         return u'%s' % self.code
+    
+class SiteBlock(models.Model):
+    siteposition = models.ForeignKey(SitePosition, blank=True, null=True)
+    code = models.CharField(max_length=255, unique=True)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
+    data = models.TextField(blank=True, null=True)
+    
+    def __unicode__(self):
+        return u'%s' % (self.code)

@@ -1,7 +1,7 @@
 from django.contrib.admin import site, ModelAdmin, StackedInline
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA
-from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect
+from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition
 
 class SitePageAliasInline(StackedInline):
     model = SitePageAlias
@@ -61,6 +61,8 @@ site.register(SiteMenu, SiteMenuAdmin)
 
 class SiteBlockAdmin(ModelAdmin):
     save_on_top = True
+    list_display = ('code', 'css_class', 'siteposition')
+    list_editable = ('css_class', 'siteposition')
     class Media:
         js = ('/static/admin/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
 

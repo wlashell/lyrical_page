@@ -61,8 +61,8 @@ site.register(SiteMenu, SiteMenuAdmin)
 
 class SiteBlockAdmin(ModelAdmin):
     save_on_top = True
-    list_display = ('code', 'css_class', 'siteposition')
-    list_editable = ('css_class', 'siteposition')
+    list_display = ('code', 'css_class', 'siteposition', 'weight',)
+    list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
     class Media:
         js = ('/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')

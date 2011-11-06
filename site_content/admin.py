@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.admin import site, ModelAdmin, StackedInline
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA
@@ -32,7 +33,7 @@ class SitePageAdmin(ModelAdmin):
     
     if ENABLE_BUILTIN_MEDIA:
         class Media:
-            js = ('/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
+            js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', getattr(settings, 'STATIC_URL', '') + 'site_content/js/lyrical_pageTinyMCEAdmin.js')
         
     def __unicode__(self):
         return '%s' % 'administration'
@@ -65,7 +66,7 @@ class SiteBlockAdmin(ModelAdmin):
     list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
     class Media:
-        js = ('/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
+        js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', getattr(settings, 'STATIC_URL', '') + 'site_content/js/lyrical_pageTinyMCEAdmin.js')
 
     def __unicode__(self):
         return '%s' % 'administration'

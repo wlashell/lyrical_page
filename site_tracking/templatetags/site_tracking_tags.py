@@ -1,6 +1,6 @@
 from django import template
 
-from site_tracking.models import VerificationCode, TRACK_GOOGLE_ANALYTICS
+from site_tracking.models import VerificationCode, TrackingCode, TRACK_GOOGLE_ANALYTICS
 
 register = template.Library()
 
@@ -11,8 +11,8 @@ def st_meta_verification():
 @register.inclusion_tag('site_tracking/js_google_analytics.html')
 def st_ga_tracking():
     try:
-        retval = TrackingCode.objects.get(tracking_code=TRACK_GOOGLE_ANALYTICS).code
+        retval = TrackingCode.objects.get(tracking_type=TRACK_GOOGLE_ANALYTICS).code
     except TrackingCode.DoesNotExist:
         retval = ''
         
-    return {'trackingcode': reval}
+    return {'trackingcode': retval}

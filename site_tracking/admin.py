@@ -6,4 +6,4 @@ class VerificationCodeAdmin(ModelAdmin):
     list_display = ('site', 'verification_type', 'code',)
     list_editable = ('code',)
     
-site.register(VerficationCode, VerificationCodeAdmin)
+site.register(VerificationCode, VerificationCodeAdmin)

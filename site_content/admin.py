@@ -34,6 +34,7 @@ class SitePageAdmin(ModelAdmin):
     if ENABLE_BUILTIN_MEDIA:
         class Media:
             js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', getattr(settings, 'STATIC_URL', '') + 'site_content/js/lyrical_pageTinyMCEAdmin.js')
+            css = {'all':('site_content/css/grappelli-tinymce.css',)}
         
     def __unicode__(self):
         return '%s' % 'administration'

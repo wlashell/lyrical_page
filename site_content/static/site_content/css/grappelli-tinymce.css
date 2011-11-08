@@ -1,0 +1,17 @@
+.grappelliSkin .mceToolbar span.mce_anchor {
+	background-image:url(../img/icons.gif);
+	background-position:-199px 1px;
+}
+
+.grappelliSkin .mceToolbar span.mce_cell_props {background-image:url(../img/icons.gif);background-position:-599px -19px}
+.grappelliSkin .mceToolbar span.mce_delete_table {background-image:url(../img/icons.gif);background-position:-619px -19px}
+.grappelliSkin .mceToolbar span.mce_delete_col {background-image:url(../img/icons.gif);background-position:-639px -19px}
+.grappelliSkin .mceToolbar span.mce_delete_row {background-image:url(../img/icons.gif);background-position:-659px -19px}
+.grappelliSkin .mceToolbar span.mce_col_after {background-image:url(../img/icons.gif);background-position:-679px -19px}
+.grappelliSkin .mceToolbar span.mce_col_before {background-image:url(../img/icons.gif);background-position:-699px -19px}
+.grappelliSkin .mceToolbar span.mce_row_after {background-image:url(../img/icons.gif);background-position:-719px -19px}
+.grappelliSkin .mceToolbar span.mce_row_before {background-image:url(../img/icons.gif);background-position:-739px -19px}
+.grappelliSkin .mceToolbar span.mce_merge_cells {background-image:url(../img/icons.gif);background-position:-759px -19px}
+.grappelliSkin .mceToolbar span.mce_table_props {background-image:url(../img/icons.gif);background-position:-979px -19px}
+.grappelliSkin .mceToolbar span.mce_row_props {background-image:url(../img/icons.gif);background-position:-779px -19px}
+.grappelliSkin .mceToolbar span.mce_split_cells {background-image:url(../img/icons.gif);background-position:-799px -19px}

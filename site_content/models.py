@@ -91,3 +91,12 @@ class SiteBlock(models.Model):
     
     class Meta:
         ordering = ('weight',)
+        
+class SitePagePositionBlock(models.Model):
+    sitepage = models.ForeignKey(SitePage)
+    siteposition = models.ForeignKey(SitePosition)
+    siteblocks = models.ManyToManyField(SiteBlock)
+    weight = models.IntegerField(default=0, help_text='Blocks are displayed in descending order')
+    
+    class Meta:
+        ordering = ('weight',)

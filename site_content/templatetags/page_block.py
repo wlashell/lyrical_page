@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from site_content.models import SiteBlock, SitePosition
+from site_content.models import SiteBlock, SitePage, SitePosition, SitePagePositionBlock
 
 register = template.Library()
 
@@ -21,7 +21,17 @@ def get_position_blocks(position):
     try:
         siteposition = SitePosition.objects.get(code=position)
     
-    except SitePosition.DoesNoteExist:
+    except SitePosition.DoesNotExist:
         siteposition = SitePosition()
         
     return {'siteposition': siteposition}
+
+@register.inclusion_tag('site_content/siteposition_sitepageblocks.html')
+def get_page_position_blocks(page, position):
+    try:
+        sitepageposition = SitePagePositionBlock.objects.get(sitepage__id=page, siteposition__code=position)
+    except (SitePagePositionBlock.DoesNotExist, SitePosition.DoesNotExist, SitePage.DoesNotExist):
+    
+        sitepageposition = None
+            
+    return {'sitepageposition':sitepageposition}

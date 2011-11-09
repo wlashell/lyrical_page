@@ -1,8 +1,8 @@
 from django.conf import settings
-from django.contrib.admin import site, ModelAdmin, StackedInline
+from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA
-from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition
+from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
 
 class SitePageAliasInline(StackedInline):
     model = SitePageAlias
@@ -15,13 +15,19 @@ class SitePageRedirectInline(StackedInline):
     classes = ('collapse-open',)
     allow_add = True
     extra = 0
+    
+class SitePagePositionBlockInline(TabularInline):
+    model = SitePagePositionBlock
+    fields = ('siteposition','siteblocks','weight')
+    allow_add = True
+    extra = 0
 
 class SitePageAdmin(ModelAdmin):
     list_display = ('url', 'content_header', 'sitemenu', 'sitemenu_label', 'sitemenu_weight', 'template', 'site')
     list_filter = ('sitemenu', 'site')
     list_editable = ('sitemenu', 'sitemenu_label', 'sitemenu_weight','template')
     save_on_top = True
-    inlines = (SitePageAliasInline,SitePageRedirectInline)
+    inlines = (SitePageAliasInline,SitePageRedirectInline,SitePagePositionBlockInline)
     ordering = ('sitemenu', 'sitemenu_weight')
     
     fieldsets = (

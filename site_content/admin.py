@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 
-from site_content.settings import ENABLE_BUILTIN_MEDIA
+from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
 from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
 
 class SitePageAliasInline(StackedInline):
@@ -39,7 +39,7 @@ class SitePageAdmin(ModelAdmin):
     
     if ENABLE_BUILTIN_MEDIA:
         class Media:
-            js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', getattr(settings, 'STATIC_URL', '') + 'site_content/js/lyrical_pageTinyMCEAdmin.js')
+            js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
             css = {'all':('site_content/css/grappelli-tinymce.css',)}
         
     def __unicode__(self):
@@ -73,7 +73,7 @@ class SiteBlockAdmin(ModelAdmin):
     list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
     class Media:
-        js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', getattr(settings, 'STATIC_URL', '') + 'site_content/js/lyrical_pageTinyMCEAdmin.js')
+        js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
 
     def __unicode__(self):
         return '%s' % 'administration'

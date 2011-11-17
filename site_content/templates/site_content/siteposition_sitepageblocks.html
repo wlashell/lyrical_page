@@ -1,9 +1,11 @@
-{% if sitepageposition %}
-<div{% if sitepageposition.siteposition.css_class %} class="{{ sitepageposition.siteposition.css_class }}"{% endif %}>
-{% for siteblock in sitepageposition.siteblocks.all %}
-<div{% if siteblock.css_class %} class="{{ siteblock.css_class }}"{% endif %}>
-{{ siteblock.data|safe }}
+{% for block in blocks %}
+{% if forloop.first %}
+<div{% if block.siteblocks.css_class %} class="{{ blocks.siteblocks.css_class }}"{% endif %}>
+{% endif %}
+<div{% if block.siteblocks.css_class %} class="{{ block.siteblocks.css_class }}"{% endif %}>
+{{ block.siteblocks.data|safe }}
 </div>
-{% endfor %}
+{% if forloop.last %}
 </div>
 {% endif %}
+{% endfor %}

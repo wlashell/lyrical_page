@@ -2,6 +2,7 @@ from django import template
 from django.utils.safestring import mark_safe
 
 from site_content.models import SiteBlock, SitePage, SitePosition, SitePagePositionBlock
+import simplejson
 
 register = template.Library()
 
@@ -28,10 +29,5 @@ def get_position_blocks(position):
 
 @register.inclusion_tag('site_content/siteposition_sitepageblocks.html')
 def get_page_position_blocks(page, position):
-    try:
-        sitepageposition = SitePagePositionBlock.objects.get(sitepage__id=page, siteposition__code=position)
-    except (SitePagePositionBlock.DoesNotExist, SitePosition.DoesNotExist, SitePage.DoesNotExist):
-    
-        sitepageposition = None
-            
-    return {'sitepageposition':sitepageposition}
+    blocks = SitePagePositionBlock.objects.filter(sitepage__id=page, siteposition__code=position)
+    return {'blocks':blocks}

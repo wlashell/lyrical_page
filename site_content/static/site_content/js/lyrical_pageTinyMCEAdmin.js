@@ -19,7 +19,7 @@ function CustomFileBrowser(field_name, url, type, win) {
     });
     return false;
 }
-
+function initTinyMCE() {
 tinyMCE.init({
     
     // see
@@ -27,7 +27,7 @@ tinyMCE.init({
     
     // Init
     mode: 'exact',
-    elements: "id_content, id_data",
+    elements: "id_content, id_data, id_question",
     theme: 'advanced',
     skin: 'grappelli',
     
@@ -66,7 +66,7 @@ tinyMCE.init({
     content_css : "/static/css/edit_style.css",
     
     // Plugins
-    plugins: 'table,advimage,advlink,fullscreen,paste,media,searchreplace,grappelli,grappelli_contextmenu,template',
+    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,grappelli,grappelli_contextmenu,template',
     
     // Theme Advanced
     theme_advanced_toolbar_location: 'top',
@@ -85,17 +85,11 @@ tinyMCE.init({
     // Style formats
     // see http://wiki.moxiecode.com/index.php/TinyMCE:Configuration/style_formats
     style_formats : [
-        {title : 'Negative Top', block : 'h2', classes: 'neg-top'},
-        {title : 'Paragraph Small', block : 'p', classes: 'p_small'},
-        {title : 'Paragraph ImageCaption', block : 'p', classes: 'p_caption'},
-        {title : 'Clearfix', block : 'p', classes: 'clearfix'},
-        {title : 'Code', block : 'p', classes: 'code'},
-        {title : 'Button - More', selector : 'a', classes: 'btn-more'},
-        {title : 'red text', inline: 'span', classes: 'red-text'},
-        {title : 'blue text', inline: 'span', classes: 'blue-text'},
-        {title : 'green text', inline: 'span', classes: 'green-text'},
-        {title : 'green', inline: 'span', classes: 'green'},
-        {title : 'grey text', inline: 'span', classes: 'grey-text'}
+             {title : 'Strong Link', selector : 'a', classes: 'strong-link'},
+             {title : 'Paragraph Header', block : 'p', classes: 'paragraph-header'},
+             {title : 'Paragraph Content', block : 'p', classes: 'paragraph-content'},
+             {title : 'Indented Paragraph', block : 'p', classes: 'indented'},
+             {title : 'Link Button', selector : 'a', classes: 'link-button'}
     ],
     
     // Templates
@@ -151,4 +145,4 @@ tinyMCE.init({
     // + 'loop|quality|allowscriptaccess|type|pluginspage]'
     
 });
-
+}

@@ -76,7 +76,7 @@ tinyMCE.init({
     theme_advanced_buttons2: 'search,|,pasteword,template,media,charmap,|,code,|,tablecontrols,cleanup,grappelli_documentstructure',
     theme_advanced_buttons3: '',
     theme_advanced_path: false,
-    theme_advanced_blockformats: 'p,h2,h3,h4,pre',
+    theme_advanced_blockformats: 'p,h2,h3,h4,h5,h6,pre,div',
     theme_advanced_resizing : true,
     theme_advanced_resize_horizontal : false,
     theme_advanced_resizing_use_cookie : true,

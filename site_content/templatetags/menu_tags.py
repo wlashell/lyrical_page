@@ -14,11 +14,19 @@ def get_menu(code, current='', show_label='True'):
     items = []
     mitems = SiteMenuItem.objects.filter(sitemenu=menu)
     for mitem in mitems:
-        items.insert(mitem.weight, {'url': mitem.url, 'weight': mitem.weight, 'label': mitem.label})
+        mitem_dict = {'url': mitem.url, 'weight': mitem.weight, 'label': mitem.label}
+        if items:
+            items.insert(mitem.weight, mitem_dict)
+        else:
+            items.append(mitem_dict)
         
     mitems = SitePage.objects.filter(sitemenu=menu).order_by('sitemenu_weight')
     for mitem in mitems:
-        items.insert(mitem.sitemenu_weight if mitem.sitemenu_weight else 0, {'url':mitem.url, 'weight': mitem.sitemenu_weight, 'label': mitem.sitemenu_label, 'depth': mitem.sitemenu_depth if mitem.sitemenu_depth else 0})
+        mitem_dict = {'url':mitem.url, 'weight': mitem.sitemenu_weight, 'label': mitem.sitemenu_label, 'depth': mitem.sitemenu_depth if mitem.sitemenu_depth else 0}
+        if items:
+            items.insert(mitem.sitemenu_weight if mitem.sitemenu_weight else 0, mitem_dict)
+        else:
+            items.append(mitem_dict)
     
     return {'items': items, 'current': current, 'code': code, 'menu': menu, 'show_label': show_label}    
 

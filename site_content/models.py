@@ -28,6 +28,7 @@ class SitePage(models.Model):
     meta_keywords = models.TextField(blank=True, null=True)
     page_class = models.CharField(max_length=255, blank=True, null=True)
     content_header = models.CharField(max_length=255, blank=True, null=True)
+    enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     content = models.TextField(blank=True, null=True)
     template = models.CharField(max_length=255, blank=True, null=True)
     sitemenu = models.ForeignKey(SiteMenu, blank=True, null=True)

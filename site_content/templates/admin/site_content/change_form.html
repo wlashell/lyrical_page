@@ -20,13 +20,12 @@
         (function($) {
         	function change_editor(checked) {
         		try {
-            		if(editor_disabled){window.location.reload();}
 	    			if(checked) {
 	    				$("textarea").each(function() {
 							$(this).addClass("mceNoEditor");
 						});
 	    				for (var i = 0; i < document.getElementsByTagName("textarea").length; i++) {
-	    					tinyMCE.execCommand("mceAddControl", true, document.getElementsByTagName("textarea")[i].id);
+	    					initTinyMCE();
 	    				}
 	    			} else {
 	    				for (var i = 0; i < tinymce.editors.length; i++) {

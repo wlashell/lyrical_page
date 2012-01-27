@@ -39,8 +39,7 @@ class SitePageAdmin(ModelAdmin):
     
     if ENABLE_BUILTIN_MEDIA:
         class Media:
-            js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
-            css = {'all':('site_content/css/grappelli-tinymce.css',)}
+            js = (getattr(settings, 'STATIC_URL', '') + 'site_content/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
         
     def __unicode__(self):
         return '%s' % 'administration'
@@ -73,7 +72,7 @@ class SiteBlockAdmin(ModelAdmin):
     list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
     class Media:
-        js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
+        js = (getattr(settings, 'STATIC_URL', '') + 'site_content/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
 
     def __unicode__(self):
         return '%s' % 'administration'

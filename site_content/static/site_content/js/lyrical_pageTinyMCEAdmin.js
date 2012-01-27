@@ -29,7 +29,7 @@ tinyMCE.init({
     mode: 'exact',
     elements: "id_content, id_data, id_question",
     theme: 'advanced',
-    skin: 'grappelli',
+    skin: 'default',
     
     // General
     //accessibility_warnings: false,
@@ -66,14 +66,14 @@ tinyMCE.init({
     content_css : "/static/css/edit_style.css",
     
     // Plugins
-    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,grappelli,grappelli_contextmenu,template',
+    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,template',
     
     // Theme Advanced
     theme_advanced_toolbar_location: 'top',
     theme_advanced_toolbar_align: 'left',
     theme_advanced_statusbar_location: 'bottom',
-    theme_advanced_buttons1: 'formatselect,styleselect,|,bold,italic,underline,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,|,fullscreen,|,grappelli_adv',
-    theme_advanced_buttons2: 'search,|,pasteword,template,media,charmap,|,code,|,tablecontrols,cleanup,grappelli_documentstructure',
+    theme_advanced_buttons1: 'formatselect,styleselect,|,bold,italic,underline,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,|,fullscreen',
+    theme_advanced_buttons2: 'search,|,pasteword,template,media,charmap,|,code,|,tablecontrols,cleanup',
     theme_advanced_buttons3: '',
     theme_advanced_path: false,
     theme_advanced_blockformats: 'p,h2,h3,h4,h5,h6,pre,div',
@@ -112,10 +112,6 @@ tinyMCE.init({
     // Adv
     advlink_styles: 'Internal Link=internal;External Link=external',
     advimage_update_dimensions_onchange: true,
-    
-    // Grappelli
-    grappelli_adv_hidden: false,
-    grappelli_show_documentstructure: 'on',
     
     // Elements
 //    valid_elements: 'marquee[behavior|direction|width|scrollamount],script[src|type]'

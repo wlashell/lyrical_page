@@ -27,7 +27,7 @@ tinyMCE.init({
     
     // Init
     mode: 'exact',
-    elements: "id_content, id_data, id_question",
+    elements: "id_content, id_data",
     theme: 'advanced',
     skin: 'default',
     
@@ -136,7 +136,7 @@ tinyMCE.init({
     // + 'kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],'
     // + 'q[cite],samp,select[disabled|multiple|name|size],small,'
     // + 'textarea[cols|rows|disabled|name|readonly],tt,var,big',
-    extended_valid_elements: 'script[src|type],img[width|height|alt|src|style]'
+    extended_valid_elements: 'script[src|type],img[id|width|height|alt|src|style]'
     // extended_valid_elements : 'embed[width|height|name|flashvars|src|bgcolor|align|play|'
     // + 'loop|quality|allowscriptaccess|type|pluginspage]'
     

@@ -66,7 +66,7 @@ tinyMCE.init({
     content_css : "/static/css/edit_style.css",
     
     // Plugins
-    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,template',
+    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,template,contextmenu',
     
     // Theme Advanced
     theme_advanced_toolbar_location: 'top',

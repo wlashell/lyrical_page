@@ -63,7 +63,7 @@ tinyMCE.init({
     remove_script_host: true,
     
     // Content CSS
-    content_css : "/static/css/edit_style.css",
+    content_css : "/static/site_content/css/edit_style.css,/static/css/edit_style.css,/static/grappelli/tinymce/jscripts/tiny_mce/themes/advanced/skins/grappelli/content_documentstructure_en.css",
     
     // Plugins
     plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,template,contextmenu',

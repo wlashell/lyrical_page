@@ -36,6 +36,7 @@ class SitePage(models.Model):
     sitemenu_label = models.CharField(max_length=255, blank=True, null=True)
     sitemenu_weight = models.IntegerField(blank=True, null=True)
     sitemenu_depth = models.IntegerField(blank=True, null=True)
+    sitemenu_css_class = models.CharField(max_length=255, blank=True, null=True)
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
     

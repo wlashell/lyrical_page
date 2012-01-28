@@ -16,6 +16,7 @@ class SiteMenuItem(models.Model):
     label = models.CharField(max_length=255, unique=True)
     weight = models.IntegerField()
     url = models.CharField(max_length=255, blank=True, null=True)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
     
     def __unicode__(self):
         return u'%s' % self.label

@@ -31,8 +31,8 @@ class SitePageAdmin(ModelAdmin):
     ordering = ('sitemenu','sitemenu_weight','url',)
     
     fieldsets = (
-        (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'content')}),
-        ('Menu', {'fields': ('sitemenu', 'sitemenu_label', 'sitemenu_weight', 'sitemenu_depth')}),
+        (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
+        ('Menu', {'fields': ('sitemenu', 'sitemenu_label', 'sitemenu_weight', 'sitemenu_depth', 'sitemenu_css_class')}),
         ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
         ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
     )
@@ -47,7 +47,7 @@ class SitePageAdmin(ModelAdmin):
 site.register(SitePage, SitePageAdmin)
 
 class SiteMenuItemAdmin(ModelAdmin):
-    list_display = ('label', 'weight', 'url', 'sitemenu')
+    list_display = ('label', 'weight', 'url', 'sitemenu', 'css_class')
     list_filter = ('sitemenu',)
     list_editable = ('weight',)
     ordering = ('weight',)

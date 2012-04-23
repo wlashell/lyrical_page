@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
+from django.contrib.sites.models import Site
 from django.db import models
 
 class SiteMenu(models.Model):
@@ -15,31 +16,39 @@ class SiteMenuItem(models.Model):
     label = models.CharField(max_length=255, unique=True)
     weight = models.IntegerField()
     url = models.CharField(max_length=255, blank=True, null=True)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
     
     def __unicode__(self):
         return u'%s' % self.label
 
 class SitePage(models.Model):
-    url = models.CharField(max_length=255, unique=True)
+    site = models.ForeignKey(Site)
+    url = models.CharField(max_length=255)
     title = models.CharField(max_length=255, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)
     meta_keywords = models.TextField(blank=True, null=True)
     page_class = models.CharField(max_length=255, blank=True, null=True)
     content_header = models.CharField(max_length=255, blank=True, null=True)
+    enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     content = models.TextField(blank=True, null=True)
     template = models.CharField(max_length=255, blank=True, null=True)
     sitemenu = models.ForeignKey(SiteMenu, blank=True, null=True)
     sitemenu_label = models.CharField(max_length=255, blank=True, null=True)
     sitemenu_weight = models.IntegerField(blank=True, null=True)
+    sitemenu_depth = models.IntegerField(blank=True, null=True)
+    sitemenu_css_class = models.CharField(max_length=255, blank=True, null=True)
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
+    
+    class Meta:
+        unique_together = ('site', 'url')
     
     def __unicode__(self):
         return u'%s' % (self.url)
     
     def save(self, force_insert=False, force_update=False):
         if self.is_index:
-            for sitepage in SitePage.objects.all():
+            for sitepage in SitePage.objects.filter(site=self.site):
                 sitepage.is_index = False
                 sitepage.save()
 
@@ -65,9 +74,33 @@ class SitePageRedirect(models.Model):
     def __unicode__(self):
         return u'%s' % self.url
     
-class SiteBlock(models.Model):
+class SitePosition(models.Model):
     code = models.CharField(max_length=255, unique=True)
+    weight = models.IntegerField(default=0)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.code
+    
+class SiteBlock(models.Model):
+    siteposition = models.ForeignKey(SitePosition, blank=True, null=True)
+    code = models.CharField(max_length=255, unique=True)
+    css_class = models.CharField(max_length=255, blank=True, null=True)
+    weight = models.IntegerField(default=0, help_text='Blocks are displayed in descending order')
+    enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     data = models.TextField(blank=True, null=True)
     
     def __unicode__(self):
         return u'%s' % (self.code)
+    
+    class Meta:
+        ordering = ('weight',)
+        
+class SitePagePositionBlock(models.Model):
+    sitepage = models.ForeignKey(SitePage)
+    siteposition = models.ForeignKey(SitePosition)
+    siteblocks = models.ForeignKey(SiteBlock)
+    weight = models.IntegerField(default=0, help_text='Blocks are displayed in descending order')
+    
+    class Meta:
+        ordering = ('weight',)

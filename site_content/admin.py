@@ -1,7 +1,8 @@
-from django.contrib.admin import site, ModelAdmin, StackedInline
+from django.conf import settings
+from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 
-from site_content.settings import ENABLE_BUILTIN_MEDIA
-from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect
+from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
+from site_content.models import SitePage, SiteMenu, SiteMenuItem, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
 
 class SitePageAliasInline(StackedInline):
     model = SitePageAlias
@@ -14,25 +15,31 @@ class SitePageRedirectInline(StackedInline):
     classes = ('collapse-open',)
     allow_add = True
     extra = 0
+    
+class SitePagePositionBlockInline(TabularInline):
+    model = SitePagePositionBlock
+    fields = ('siteposition','siteblocks','weight')
+    allow_add = True
+    extra = 0
 
 class SitePageAdmin(ModelAdmin):
-    list_display = ('url', 'content_header', 'sitemenu', 'sitemenu_label', 'sitemenu_weight', 'template')
-    list_filter = ('sitemenu',)
-    list_editable = ('sitemenu', 'sitemenu_label', 'sitemenu_weight','template')
+    list_display = ('url', 'content_header', 'sitemenu', 'sitemenu_label', 'sitemenu_weight', 'sitemenu_depth', 'template', 'site')
+    list_filter = ('sitemenu', 'site')
+    list_editable = ('sitemenu', 'sitemenu_label', 'sitemenu_weight', 'sitemenu_depth', 'template')
     save_on_top = True
-    inlines = (SitePageAliasInline,SitePageRedirectInline)
-    ordering = ('sitemenu', 'sitemenu_weight')
+    inlines = (SitePageAliasInline,SitePageRedirectInline,SitePagePositionBlockInline)
+    ordering = ('sitemenu','sitemenu_weight','url',)
     
     fieldsets = (
-        (None, {'fields': ('is_index', 'url', 'title', 'content_header', 'content')}),
-        ('Menu', {'fields': ('sitemenu', 'sitemenu_label', 'sitemenu_weight')}),
+        (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
+        ('Menu', {'fields': ('sitemenu', 'sitemenu_label', 'sitemenu_weight', 'sitemenu_depth', 'sitemenu_css_class')}),
         ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
         ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
     )
     
     if ENABLE_BUILTIN_MEDIA:
         class Media:
-            js = ('/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
+            js = (getattr(settings, 'STATIC_URL', '') + 'site_content/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
         
     def __unicode__(self):
         return '%s' % 'administration'
@@ -40,7 +47,7 @@ class SitePageAdmin(ModelAdmin):
 site.register(SitePage, SitePageAdmin)
 
 class SiteMenuItemAdmin(ModelAdmin):
-    list_display = ('label', 'weight', 'url', 'sitemenu')
+    list_display = ('label', 'weight', 'url', 'sitemenu', 'css_class')
     list_filter = ('sitemenu',)
     list_editable = ('weight',)
     ordering = ('weight',)
@@ -61,8 +68,11 @@ site.register(SiteMenu, SiteMenuAdmin)
 
 class SiteBlockAdmin(ModelAdmin):
     save_on_top = True
+    list_display = ('code', 'css_class', 'siteposition', 'weight',)
+    list_editable = ('css_class', 'siteposition', 'weight',)
+    list_filter = ('siteposition',)
     class Media:
-        js = ('/static/admin/tinymce/jscripts/tiny_mce/tiny_mce.js', '/static/js/lyrical_pageTinyMCEAdmin.js')
+        js = (getattr(settings, 'STATIC_URL', '') + 'site_content/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
 
     def __unicode__(self):
         return '%s' % 'administration'
@@ -72,3 +82,10 @@ site.register(SiteBlock, SiteBlockAdmin)
 class SitePageRedirect(ModelAdmin):
     list_display = ('sitepage', 'url')
     save_on_top = True
+
+class SitePositionAdmin(ModelAdmin):
+    save_on_top = True
+    list_display = ('code', 'weight', 'css_class')
+    list_editable = ('weight', 'css_class')
+    
+site.register(SitePosition, SitePositionAdmin)

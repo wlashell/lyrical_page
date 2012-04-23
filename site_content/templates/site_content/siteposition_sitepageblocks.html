@@ -1,0 +1,11 @@
+{% for block in blocks %}
+{% if forloop.first %}
+<div{% if block.siteblocks.css_class %} class="{{ blocks.siteblocks.css_class }}"{% endif %}>
+{% endif %}
+<div{% if block.siteblocks.css_class %} class="{{ block.siteblocks.css_class }}"{% endif %}>
+{{ block.siteblocks.data|safe }}
+</div>
+{% if forloop.last %}
+</div>
+{% endif %}
+{% endfor %}

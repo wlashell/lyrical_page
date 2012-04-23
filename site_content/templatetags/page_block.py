@@ -6,6 +6,7 @@ import simplejson
 
 register = template.Library()
 
+
 @register.simple_tag
 def get_block(code):
     try:
@@ -17,6 +18,7 @@ def get_block(code):
     
     return mark_safe(retval)
 
+
 @register.inclusion_tag('site_content/siteposition_siteblock.html')
 def get_position_blocks(position):
     try:
@@ -27,7 +29,9 @@ def get_position_blocks(position):
         
     return {'siteposition': siteposition}
 
+
 @register.inclusion_tag('site_content/siteposition_sitepageblocks.html')
 def get_page_position_blocks(page, position):
-    blocks = SitePagePositionBlock.objects.filter(sitepage__id=page, siteposition__code=position)
-    return {'blocks':blocks}
+    blocks = SitePagePositionBlock.objects.filter(sitepage__id=page, siteposition__code=position).order_by('weight')
+    position = SitePosition.objects.get(code=position)
+    return {'blocks': blocks, 'position': position}

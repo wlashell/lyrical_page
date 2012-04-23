@@ -1,6 +1,6 @@
 {% for block in blocks %}
 {% if forloop.first %}
-<div{% if block.siteblocks.css_class %} class="{{ blocks.siteblocks.css_class }}"{% endif %}>
+<div{% if position.css_class %} class="{{ position.css_class }}"{% endif %}>
 {% endif %}
 <div{% if block.siteblocks.css_class %} class="{{ block.siteblocks.css_class }}"{% endif %}>
 {{ block.siteblocks.data|safe }}

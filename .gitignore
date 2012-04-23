@@ -3,3 +3,4 @@
 *.db
 .project
 .pydevproject
+.DS_Store

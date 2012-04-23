@@ -1,25 +1,37 @@
 from django.conf import settings
-from django.contrib.auth.views import redirect_to_login
 from django.contrib.sites.models import Site
 from django.db import models
+from django.db.models.fields.related import SingleRelatedObjectDescriptor
+from django.db.models.query import QuerySet
 
-class SiteMenu(models.Model):
-    label = models.CharField(max_length=255, unique=True)
-    code = models.CharField(max_length=255, unique=True)
-    weight = models.IntegerField()
-    
-    def __unicode__(self):
-        return u'%s' % self.label
 
-class SiteMenuItem(models.Model):
-    sitemenu = models.ForeignKey(SiteMenu)
-    label = models.CharField(max_length=255, unique=True)
-    weight = models.IntegerField()
-    url = models.CharField(max_length=255, blank=True, null=True)
-    css_class = models.CharField(max_length=255, blank=True, null=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.label
+class InheritanceQuerySet(QuerySet):
+    def select_subclasses(self, *subclasses):
+        if not subclasses:
+            subclasses = [o for o in dir(self.model)
+                          if isinstance(getattr(self.model, o), SingleRelatedObjectDescriptor)\
+                          and issubclass(getattr(self.model, o).related.model, self.model)]
+        new_qs = self.select_related(*subclasses)
+        new_qs.subclasses = subclasses
+        return new_qs
+
+    def _clone(self, klass=None, setup=False, **kwargs):
+        try:
+            kwargs.update({'subclasses': self.subclasses})
+        except AttributeError:
+            pass
+        return super(InheritanceQuerySet, self)._clone(klass, setup, **kwargs)
+        
+    def iterator(self):
+        iter = super(InheritanceQuerySet, self).iterator()
+        if getattr(self, 'subclasses', False):
+            for obj in iter:
+                obj = [getattr(obj, s) for s in self.subclasses if getattr(obj, s)] or [obj]
+                yield obj[0]
+        else:
+            for obj in iter:
+                yield obj
+
 
 class SitePage(models.Model):
     site = models.ForeignKey(Site)
@@ -32,11 +44,6 @@ class SitePage(models.Model):
     enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     content = models.TextField(blank=True, null=True)
     template = models.CharField(max_length=255, blank=True, null=True)
-    sitemenu = models.ForeignKey(SiteMenu, blank=True, null=True)
-    sitemenu_label = models.CharField(max_length=255, blank=True, null=True)
-    sitemenu_weight = models.IntegerField(blank=True, null=True)
-    sitemenu_depth = models.IntegerField(blank=True, null=True)
-    sitemenu_css_class = models.CharField(max_length=255, blank=True, null=True)
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
     
@@ -53,12 +60,13 @@ class SitePage(models.Model):
                 sitepage.save()
 
         if getattr(settings, 'APPEND_SLASH', False) and self.url != '/':
-          if not self.url.startswith('/'):
-            self.url = '/%s' % self.url
-          if not self.url.endswith('/'):
-            self.url = '%s/' % self.url
+            if not self.url.startswith('/'):
+                self.url = '/%s' % self.url
+            if not self.url.endswith('/'):
+                self.url = '%s/' % self.url
                 
         super(SitePage, self).save(force_insert, force_update)
+
 
 class SitePageAlias(models.Model):
     sitepage = models.ForeignKey(SitePage)
@@ -66,14 +74,16 @@ class SitePageAlias(models.Model):
     
     def __unicode__(self):
         return u'%s' % self.url_alias
-        
+
+
 class SitePageRedirect(models.Model):
     sitepage = models.ForeignKey(SitePage)
     url = models.CharField(max_length=255, unique=True, help_text='URL to redirect. Max character length for alias is 255.')
     
     def __unicode__(self):
         return u'%s' % self.url
-    
+
+
 class SitePosition(models.Model):
     code = models.CharField(max_length=255, unique=True)
     weight = models.IntegerField(default=0)
@@ -81,7 +91,8 @@ class SitePosition(models.Model):
     
     def __unicode__(self):
         return u'%s' % self.code
-    
+
+
 class SiteBlock(models.Model):
     siteposition = models.ForeignKey(SitePosition, blank=True, null=True)
     code = models.CharField(max_length=255, unique=True)
@@ -95,7 +106,8 @@ class SiteBlock(models.Model):
     
     class Meta:
         ordering = ('weight',)
-        
+
+
 class SitePagePositionBlock(models.Model):
     sitepage = models.ForeignKey(SitePage)
     siteposition = models.ForeignKey(SitePosition)
@@ -104,3 +116,43 @@ class SitePagePositionBlock(models.Model):
     
     class Meta:
         ordering = ('weight',)
+
+
+class SiteMenu(models.Model):
+    site = models.ForeignKey(Site)
+    label = models.CharField(max_length=255)
+    code = models.CharField(max_length=255)
+    show_label = models.BooleanField(default=False)
+    
+    class Meta:
+        unique_together = (['site', 'code'])
+
+    def __unicode__(self):
+        return u'{0}'.format(self.label)
+
+    def get_menu_items(self):
+        return InheritanceQuerySet(SiteMenuItem).filter(sitemenu=self).select_subclasses()
+
+
+class SiteMenuItem(models.Model):
+    sitemenu = models.ForeignKey(SiteMenu, related_name='sitemenu')
+    label = models.CharField(max_length=255)
+    weight = models.IntegerField(default=0)
+    css_class = models.CharField(max_length=255, blank=True)
+    submenu = models.ForeignKey(SiteMenu, related_name='submenu', blank=True, null=True)
+
+    class Meta:
+        ordering = ['weight']
+
+    def __unicode__(self):
+        return u'{0}'.format(self.label)
+
+
+class MenuItemLink(SiteMenuItem):
+    url = models.CharField(max_length=255, blank=True)
+    target = models.CharField(max_length=35, blank=True)
+
+
+class MenuItemPage(SiteMenuItem):
+    page = models.ForeignKey(SitePage)
+    target = models.CharField(max_length=35, blank=True)

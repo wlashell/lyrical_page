@@ -24,7 +24,7 @@
     <a class="logo" href="/"><img src="{{ STATIC_URL }}img/logo.jpg"></a>
 </header>
 <nav class="global-nav">
-    {% get_menu "global-nav" sitepage.site.id sitepage.url "False" %}
+    {% get_menu "global-nav" sitepage.url %}
 </nav>
 <div role="main" class="clearfix">
     <div class="content-top">{% block content-header-block %}<h1>{{ sitepage.content_header|safe }}</h1>{% endblock content-header-block %}</div>

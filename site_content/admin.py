@@ -37,8 +37,8 @@ class SitePageAdmin(ModelAdmin):
     
     fieldsets = (
         (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
-        ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
-        ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
+        ('Meta Tags', {'classes': ('collapse closed', ), 'fields': ('meta_description', 'meta_keywords')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('page_class', 'template')})
     )
     
     if ENABLE_BUILTIN_MEDIA:
@@ -66,16 +66,35 @@ class SiteMenuItemAdmin(ModelAdmin):
 
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'weight')}),
-        ('Advanced', {'classes': ('collapse', ), 'fields': ('css_class', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('css_class', 'submenu')}),
     )
 
     change_list_template = 'site_content/menuitem_change_list.html'
+    change_form_template = 'site_content/menuitem_change_form.html'
 
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['change_link_url'] = urlresolvers.reverse('admin:site_content_menuitemlink_add')
         extra_context['change_page_url'] = urlresolvers.reverse('admin:site_content_menuitempage_add')
         return super(SiteMenuItemAdmin, self).changelist_view(request, extra_context=extra_context)
+
+    def add_view(self, request, form_url='', extra_context=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        extra_context = extra_context or {}
+        extra_context['change_list_url'] = change_list_url
+        result = super(SiteMenuItemAdmin, self).add_view(request, form_url='', extra_context=extra_context)
+        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
+            result['Location'] = change_list_url
+        return result
+
+    def change_view(self, request, object_id, extra_context=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        extra_context = extra_context or {}
+        extra_context['change_list_url'] = change_list_url
+        result = super(SiteMenuItemAdmin, self).change_view(request, object_id, extra_context=extra_context)
+        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
+            result['Location'] = change_list_url
+        return result
 
     def queryset(self, request):
         qs = InheritanceQuerySet(SiteMenuItem).select_subclasses()
@@ -122,7 +141,7 @@ site.register(SiteMenuItem, SiteMenuItemAdmin)
 class MenuItemLinkAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'url', 'weight')}),
-        ('Advanced', {'classes': ('collapse', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'
@@ -154,7 +173,7 @@ site.register(MenuItemLink, MenuItemLinkAdmin)
 class MenuItemPageAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'page', 'weight')}),
-        ('Advanced', {'classes': ('collapse', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'

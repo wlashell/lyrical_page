@@ -154,8 +154,6 @@ class MenuItemLinkAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemLinkAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -163,9 +161,15 @@ class MenuItemLinkAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemLinkAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
+
+    def response_add(self, request, obj, post_url_continue=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        return HttpResponseRedirect(change_list_url)
+
+    def response_change(self, request, obj, post_url_continue=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        return HttpResponseRedirect(change_list_url)
 
 site.register(MenuItemLink, MenuItemLinkAdmin)
 
@@ -186,8 +190,6 @@ class MenuItemPageAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemPageAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -195,9 +197,15 @@ class MenuItemPageAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemPageAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
+
+    def response_add(self, request, obj, post_url_continue=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        return HttpResponseRedirect(change_list_url)
+
+    def response_change(self, request, obj, post_url_continue=None):
+        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+        return HttpResponseRedirect(change_list_url)
 
 site.register(MenuItemPage, MenuItemPageAdmin)
 

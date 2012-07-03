@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 from django.core import urlresolvers
+from django.http import HttpResponseRedirect
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
 from site_content.models import InheritanceQuerySet, SitePage, SiteMenu, SiteMenuItem, MenuItemLink, MenuItemPage, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
@@ -34,21 +35,21 @@ class SitePageAdmin(ModelAdmin):
     save_on_top = True
     inlines = (SitePageAliasInline, SitePageRedirectInline, SitePagePositionBlockInline)
     ordering = ('url', )
-    
+
     fieldsets = (
         (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
-        ('Meta Tags', {'classes': ('collapse closed', ), 'fields': ('meta_description', 'meta_keywords')}),
-        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('page_class', 'template')})
+        ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
+        ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
     )
-    
+
     if ENABLE_BUILTIN_MEDIA:
         class Media:
             css = {'all': ('site_content/css/grappelli-tinymce.css',)}
             js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
-        
+
     def __unicode__(self):
         return '%s' % 'administration'
-        
+
 site.register(SitePage, SitePageAdmin)
 
 
@@ -128,7 +129,7 @@ class SiteMenuItemAdmin(ModelAdmin):
         return retval
 
     edit_item.allow_tags = True
-    
+
     actions = [delete_menu_items]
     def get_actions(self, request):
         actions = super(SiteMenuItemAdmin, self).get_actions(request)
@@ -215,7 +216,7 @@ class SiteMenuAdmin(ModelAdmin):
 
     def __unicode__(self):
         return '%s' % 'administration'
-    
+
 site.register(SiteMenu, SiteMenuAdmin)
 
 
@@ -224,7 +225,7 @@ class SiteBlockAdmin(ModelAdmin):
     list_display = ('code', 'css_class', 'siteposition', 'weight',)
     list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
-    
+
     class Media:
         css = {'all': ('site_content/css/grappelli-tinymce.css',)}
         js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
@@ -244,5 +245,5 @@ class SitePositionAdmin(ModelAdmin):
     save_on_top = True
     list_display = ('code', 'weight', 'css_class')
     list_editable = ('weight', 'css_class')
-    
+
 site.register(SitePosition, SitePositionAdmin)

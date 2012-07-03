@@ -84,8 +84,6 @@ class SiteMenuItemAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(SiteMenuItemAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -93,8 +91,6 @@ class SiteMenuItemAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(SiteMenuItemAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def queryset(self, request):
@@ -131,6 +127,7 @@ class SiteMenuItemAdmin(ModelAdmin):
     edit_item.allow_tags = True
 
     actions = [delete_menu_items]
+
     def get_actions(self, request):
         actions = super(SiteMenuItemAdmin, self).get_actions(request)
         del actions['delete_selected']
@@ -142,7 +139,7 @@ site.register(SiteMenuItem, SiteMenuItemAdmin)
 class MenuItemLinkAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'url', 'weight')}),
-        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'
@@ -165,12 +162,16 @@ class MenuItemLinkAdmin(ModelAdmin):
         return result
 
     def response_add(self, request, obj, post_url_continue=None):
-        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
-        return HttpResponseRedirect(change_list_url)
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemLinkAdmin, self).response_change(request, obj)
 
     def response_change(self, request, obj, post_url_continue=None):
-        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
-        return HttpResponseRedirect(change_list_url)
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemLinkAdmin, self).response_change(request, obj)
 
 site.register(MenuItemLink, MenuItemLinkAdmin)
 
@@ -178,7 +179,7 @@ site.register(MenuItemLink, MenuItemLinkAdmin)
 class MenuItemPageAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'page', 'weight')}),
-        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'
@@ -201,12 +202,16 @@ class MenuItemPageAdmin(ModelAdmin):
         return result
 
     def response_add(self, request, obj, post_url_continue=None):
-        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
-        return HttpResponseRedirect(change_list_url)
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemPageAdmin, self).response_change(request, obj)
 
     def response_change(self, request, obj, post_url_continue=None):
-        change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
-        return HttpResponseRedirect(change_list_url)
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemPageAdmin, self).response_change(request, obj)
 
 site.register(MenuItemPage, MenuItemPageAdmin)
 

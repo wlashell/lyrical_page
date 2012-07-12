@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 from django.core import urlresolvers
+from django.http import HttpResponseRedirect
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
 from site_content.models import InheritanceQuerySet, SitePage, SiteMenu, SiteMenuItem, MenuItemLink, MenuItemPage, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
@@ -34,21 +35,21 @@ class SitePageAdmin(ModelAdmin):
     save_on_top = True
     inlines = (SitePageAliasInline, SitePageRedirectInline, SitePagePositionBlockInline)
     ordering = ('url', )
-    
+
     fieldsets = (
         (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
-        ('Meta Tags', {'classes': ('collapse closed', ), 'fields': ('meta_description', 'meta_keywords')}),
-        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('page_class', 'template')})
+        ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
+        ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
     )
-    
+
     if ENABLE_BUILTIN_MEDIA:
         class Media:
             css = {'all': ('site_content/css/grappelli-tinymce.css',)}
             js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
-        
+
     def __unicode__(self):
         return '%s' % 'administration'
-        
+
 site.register(SitePage, SitePageAdmin)
 
 
@@ -83,8 +84,6 @@ class SiteMenuItemAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(SiteMenuItemAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -92,8 +91,6 @@ class SiteMenuItemAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(SiteMenuItemAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def queryset(self, request):
@@ -128,8 +125,9 @@ class SiteMenuItemAdmin(ModelAdmin):
         return retval
 
     edit_item.allow_tags = True
-    
+
     actions = [delete_menu_items]
+
     def get_actions(self, request):
         actions = super(SiteMenuItemAdmin, self).get_actions(request)
         del actions['delete_selected']
@@ -141,7 +139,7 @@ site.register(SiteMenuItem, SiteMenuItemAdmin)
 class MenuItemLinkAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'url', 'weight')}),
-        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'
@@ -154,8 +152,6 @@ class MenuItemLinkAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemLinkAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -163,9 +159,19 @@ class MenuItemLinkAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemLinkAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
+
+    def response_add(self, request, obj, post_url_continue=None):
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemLinkAdmin, self).response_change(request, obj)
+
+    def response_change(self, request, obj, post_url_continue=None):
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemLinkAdmin, self).response_change(request, obj)
 
 site.register(MenuItemLink, MenuItemLinkAdmin)
 
@@ -173,7 +179,7 @@ site.register(MenuItemLink, MenuItemLinkAdmin)
 class MenuItemPageAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('label', 'sitemenu', 'page', 'weight')}),
-        ('Advanced', {'classes': ('collapse closed', ),'fields': ('css_class', 'target', 'submenu')}),
+        ('Advanced', {'classes': ('collapse closed', ), 'fields': ('css_class', 'target', 'submenu')}),
     )
 
     change_form_template = 'site_content/menuitem_change_form.html'
@@ -186,8 +192,6 @@ class MenuItemPageAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemPageAdmin, self).add_view(request, form_url='', extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
 
     def change_view(self, request, object_id, extra_context=None):
@@ -195,9 +199,19 @@ class MenuItemPageAdmin(ModelAdmin):
         extra_context = extra_context or {}
         extra_context['change_list_url'] = change_list_url
         result = super(MenuItemPageAdmin, self).change_view(request, object_id, extra_context=extra_context)
-        if not request.POST.has_key('_addanother') and not request.POST.has_key('_continue'):
-            result['Location'] = change_list_url
         return result
+
+    def response_add(self, request, obj, post_url_continue=None):
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemPageAdmin, self).response_change(request, obj)
+
+    def response_change(self, request, obj, post_url_continue=None):
+        if '_addanother' not in request.POST and '_continue' not in request.POST:
+            change_list_url = urlresolvers.reverse('admin:site_content_sitemenuitem_changelist')
+            return HttpResponseRedirect(change_list_url)
+        return super(MenuItemPageAdmin, self).response_change(request, obj)
 
 site.register(MenuItemPage, MenuItemPageAdmin)
 
@@ -207,7 +221,7 @@ class SiteMenuAdmin(ModelAdmin):
 
     def __unicode__(self):
         return '%s' % 'administration'
-    
+
 site.register(SiteMenu, SiteMenuAdmin)
 
 
@@ -216,7 +230,7 @@ class SiteBlockAdmin(ModelAdmin):
     list_display = ('code', 'css_class', 'siteposition', 'weight',)
     list_editable = ('css_class', 'siteposition', 'weight',)
     list_filter = ('siteposition',)
-    
+
     class Media:
         css = {'all': ('site_content/css/grappelli-tinymce.css',)}
         js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
@@ -236,5 +250,5 @@ class SitePositionAdmin(ModelAdmin):
     save_on_top = True
     list_display = ('code', 'weight', 'css_class')
     list_editable = ('weight', 'css_class')
-    
+
 site.register(SitePosition, SitePositionAdmin)

@@ -15,3 +15,8 @@
 .grappelliSkin .mceToolbar span.mce_table_props {background-image:url(../img/icons.gif);background-position:-979px -19px}
 .grappelliSkin .mceToolbar span.mce_row_props {background-image:url(../img/icons.gif);background-position:-779px -19px}
 .grappelliSkin .mceToolbar span.mce_split_cells {background-image:url(../img/icons.gif);background-position:-799px -19px}
+
+.grappelliSkin .mceToolbar span.mce_justifyleft {background-image:url(../img/icons.gif);background-position:-459px 2px}
+.grappelliSkin .mceToolbar span.mce_justifycenter {background-image:url(../img/icons.gif);background-position:-419px 2px}
+.grappelliSkin .mceToolbar span.mce_justifyright {background-image:url(../img/icons.gif);background-position:-479px 2px}
+.grappelliSkin .mceToolbar span.mce_justifyfull {background-image:url(../img/icons.gif);background-position:-439px 2px}

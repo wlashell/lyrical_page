@@ -1,0 +1,4 @@
+<div class="slide{{ idx }}">
+	{% slide.content %}<div class="slide-content">{{ slide.content|safe }}</div>
+	{% if slide.image %}<img class="slide-image" src="{{ slide.image.url }}">{% endif %}
+</div>

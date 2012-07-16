@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models.fields.related import SingleRelatedObjectDescriptor
 from django.db.models.query import QuerySet
+from settings import SITE_PAGE_TEMPLATES, SITE_PAGE_DEFAULT_TEMPLATE
 
 
 class InheritanceQuerySet(QuerySet):
@@ -43,7 +44,7 @@ class SitePage(models.Model):
     content_header = models.CharField(max_length=255, blank=True, null=True)
     enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     content = models.TextField(blank=True, null=True)
-    template = models.CharField(max_length=255, blank=True, null=True)
+    template = models.CharField(max_length=255, blank=True, null=True, choices=SITE_PAGE_TEMPLATES, default=SITE_PAGE_DEFAULT_TEMPLATE)
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
     

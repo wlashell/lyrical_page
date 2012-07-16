@@ -3,7 +3,7 @@ from django.contrib.admin import site, ModelAdmin, StackedInline, TabularInline
 from django.core import urlresolvers
 from django.http import HttpResponseRedirect
 
-from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
+from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI, RTE_SCRIPT_URI
 from site_content.models import InheritanceQuerySet, SitePage, SiteMenu, SiteMenuItem, MenuItemLink, MenuItemPage, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
 
 
@@ -45,7 +45,7 @@ class SitePageAdmin(ModelAdmin):
     if ENABLE_BUILTIN_MEDIA:
         class Media:
             css = {'all': ('site_content/css/grappelli-tinymce.css',)}
-            js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
+            js = (RTE_SCRIPT_URI, RTE_CONFIG_URI)
 
     def __unicode__(self):
         return '%s' % 'administration'
@@ -233,7 +233,7 @@ class SiteBlockAdmin(ModelAdmin):
 
     class Media:
         css = {'all': ('site_content/css/grappelli-tinymce.css',)}
-        js = (getattr(settings, 'STATIC_URL', '') + 'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', RTE_CONFIG_URI)
+        js = (RTE_SCRIPT_URI, RTE_CONFIG_URI)
 
     def __unicode__(self):
         return '%s' % 'administration'

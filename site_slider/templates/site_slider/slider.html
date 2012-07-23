@@ -1,4 +1,7 @@
-<div class="clearfix site-slider{% if css_class %} {{ css_class }}{% endif %}">
-	{% for slide in slides %}
-	{% endfor %}
+<div class="clearfix site-slider{% if slider.css_class %} {{ slider.css_class }}{% endif %}">
+	{{ slides_html|safe }}
+	<div class="controls">
+		<div class="control-left"><a href="#"><span>Left</span></a></div>
+		<div class="control-right"><a href="#"><span>Right</span></a></div>
+	</div>
 </div>

@@ -14,6 +14,7 @@ class SliderNode(Node):
     def render(self, context):
         slider = Slider.objects.get(code=self.code)
         retval = ''
+        slides_html = ''
 
         idx = 0
         for slide in slider.sliderslide_set.all().order_by('weight'):
@@ -23,9 +24,19 @@ class SliderNode(Node):
                 tmpl_path = SLIDE_TEMPLATE_PATH
 
             tmpl = get_template(tmpl_path)
-            retval += tmpl.render(Context({'slide': slide,
+            slides_html += tmpl.render(Context({'slide': slide,
                                            'idx': idx}))
             idx += 1
+
+        if slider.template:
+            tmpl_path = slider.template
+        else:
+            tmpl_path = SLIDER_TEMPLATE_PATH
+
+        tmpl = get_template(tmpl_path)
+
+        retval = tmpl.render(Context({'slider': slider,
+                                      'slides_html': slides_html}))
 
         return retval
 
@@ -35,3 +46,4 @@ def get_slider(parser, token):
     tag_name, code = token.split_contents()
 
     return SliderNode(code)
+

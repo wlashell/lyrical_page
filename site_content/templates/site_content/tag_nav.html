@@ -1,8 +1,12 @@
-<div id="menu-{{ code }}">
-	{% ifequal show_label "True" %}<div class="menu-label">{{ menu.label }}</div>{% endifequal %}
-	<ul class="clearfix">
-	{% for mitem in items %}
-			<li {% ifequal mitem.url current %}class="selected"{% endifequal %}><a href="{{ mitem.url }}"><span>{{ mitem.label|safe }}</span></a></li>
-	{% endfor %}
-	</ul>
-</div>
+{% if menu.show_label %}<div class="menu-label">{{ menu.label|safe }}</div>{% endif %}
+{% for mitem in menu.get_menu_items %}
+{% if level >= start %}{% if forloop.first %}<ul id="menu-{{ menu.code }}" class="clearfix">{% endif %}
+<li class="level{{ level }} mitem{{ forloop.counter0 }}{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}{% if mitem.css_class %} {{ mitem.css_class }}{% endif %}">
+{% if mitem.page or mitem.url %}<a href="{% firstof mitem.page.url mitem.url %}"{% if mitem.url == current or mitem.page.url == current %} class="selected"{% endif %}{% if mitem.target %} target="{{ mitem.target }}"{% endif %}>{% endif %}
+<span>{{ mitem.label|safe }}</span>
+{% if mitem.page or mitem.url %}</a>{% endif %}{% endif %}
+{% if mitem.submenu and mitem.submenu != mitem.menu and level != limit %}
+{% load menu_tags %}{% get_menu mitem.submenu.code current limit start level %}
+{% endif %}{% if level >= start %}
+</li>
+{% if forloop.last %}</ul>{% endif %}{% endif %}{% endfor %}

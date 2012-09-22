@@ -1,26 +1,16 @@
 from django import template
+from django.conf import settings
 
-from site_content.models import SiteMenu, SiteMenuItem, SitePage
+from site_content.models import SiteMenu
 
 register = template.Library()
 
+
 @register.inclusion_tag('site_content/tag_nav.html')
-def get_menu(code, current='', show_label='True'):
+def get_menu(code, current='', limit=2, start=0, level=-1):
     try:
-        menu = SiteMenu.objects.get(code=code)
+        menu = SiteMenu.objects.get(site__id=settings.__class__.SITE_ID.value, code=code)
     except SiteMenu.DoesNotExist:
         return {}
-    
-    items = []
-    mitems = SiteMenuItem.objects.filter(sitemenu=menu)
-    for mitem in mitems:
-        items.append({'url': mitem.url, 'weight': mitem.weight if mitem.weight else 0, 'label': mitem.label})
-        
-    mitems = SitePage.objects.filter(sitemenu=menu).order_by('sitemenu_weight')
-    for mitem in mitems:
-        items.append({'url':mitem.url, 'weight': mitem.sitemenu_weight if mitem.sitemenu_weight else 0, 'label': mitem.sitemenu_label, 'depth': mitem.sitemenu_depth if mitem.sitemenu_depth else 0})
-    
-    if items:
-        items = sorted(items, key=lambda k: k['weight'])
-    
-    return {'items': items, 'current': current, 'code': code, 'menu': menu, 'show_label': show_label}
+
+    return {'current': current, 'menu': menu, 'limit': limit, 'start': start, 'level': level + 1}

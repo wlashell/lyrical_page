@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+{% load url from future %}
+
+{% block notinymce %}$(document).ready(function() {{% endblock %}
+
+{% block breadcrumbs %}
+<div id="breadcrumbs">
+<a href="{% url 'admin:index' %}">Home</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{{ change_list_url }}">Menu items</a>{% else %}Site menu items{% endif %}
+&rsaquo; {% if add %}Add {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}

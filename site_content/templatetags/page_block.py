@@ -2,7 +2,6 @@ from django import template
 from django.utils.safestring import mark_safe
 
 from site_content.models import SiteBlock, SitePage, SitePosition, SitePagePositionBlock
-import simplejson
 
 register = template.Library()
 

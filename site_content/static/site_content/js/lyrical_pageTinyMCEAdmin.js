@@ -29,7 +29,7 @@ tinyMCE.init({
     mode: 'exact',
     elements: "id_content, id_data",
     theme: 'advanced',
-    skin: 'default',
+    skin: 'grappelli',
     
     // General
     //accessibility_warnings: false,
@@ -66,7 +66,7 @@ tinyMCE.init({
     content_css : "/static/site_content/css/edit_style.css,/static/css/edit_style.css,/static/grappelli/tinymce/jscripts/tiny_mce/themes/advanced/skins/grappelli/content_documentstructure_en.css",
     
     // Plugins
-    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,template,contextmenu',
+    plugins: 'table,advimage,inlinepopups,advlink,fullscreen,paste,media,searchreplace,grappelli,grappelli_contextmenu,template',
     
     // Theme Advanced
     theme_advanced_toolbar_location: 'top',

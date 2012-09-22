@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='lyrical_page',
-    version='1.3.0',
+    version='1.6.0',
     description='Website content system based on a mashup of ideas from the Django contrib flatpage appp, joomla!, and many years of systems development..',
     author='Will LaShell',
     author_email='wlashell@lyrical.net',

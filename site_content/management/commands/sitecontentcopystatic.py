@@ -41,11 +41,11 @@ class Command(BaseCommand):
         # This is a two pass operation, if any file already exists the command will stop
         # operations.
         try:
-            print 'trying %s' % os.path.join(selected_filedir, 'css')
+            print 'Testing path: %s' % os.path.join(selected_filedir, 'css')
             if not os.path.exists(os.path.join(selected_filedir, 'css')):
                 os.mkdir(os.path.join(selected_filedir, 'css'))
 
-            print 'trying %s' % os.path.join(selected_filedir, 'js')
+            print 'Testing path: %s' % os.path.join(selected_filedir, 'js')
             if not os.path.exists(os.path.join(selected_filedir, 'js')):
                 os.mkdir(os.path.join(selected_filedir, 'js'))
 

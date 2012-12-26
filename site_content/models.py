@@ -53,7 +53,8 @@ class SitePage(models.Model):
     content_header = models.CharField(max_length=255, blank=True, null=True)
     enable_rte = models.BooleanField(default=True, help_text='Check this box to use the graphical editor', verbose_name='Enable editor')
     content = models.TextField(blank=True, null=True)
-    template = models.CharField(max_length=255, blank=True, null=True)
+    template = models.ForeignKey(SitePageTemplateSelection, blank=True, null=True)
+    custom_template = models.CharField(max_length=255, blank=True, null=True, help_text='Enter a custom template path. This value will override the template selection dropdown.')
     is_index = models.BooleanField(blank=True, default=False)
     login_required = models.BooleanField(blank=True, default=False)
     

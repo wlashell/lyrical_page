@@ -19,3 +19,16 @@ class SiteUrl(models.Model):
         sitepages = SitePage.objects.filter(url=self.url, site=self.site)
         for sitepage in sitepages:
             self.sitepages.add(sitepage)
+
+
+class SiteUrlDefaults(models.Model):
+    site = models.ForeignKey(Site)
+    page_title = models.TextField(blank=True, null=True)
+    page_keywords = models.TextField(blank=True, null=True)
+    page_description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'site url defaults'
+
+    def __unicode__(self):
+        return 'SEO Default for site: %s' % self.site

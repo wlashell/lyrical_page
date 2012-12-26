@@ -44,9 +44,11 @@ def site_page(request, url, extra_context=None):
     
     if not sitepage:
         raise Http404
- 
-    if sitepage.template:
-        template_path = sitepage.template
+
+    if sitepage.custom_template:
+        template_path = sitepage.custom_template
+    elif sitepage.template:
+        template_path = sitepage.template.template_path
     else:
         template_path = 'site_content/site_page.html'
     

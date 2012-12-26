@@ -4,7 +4,14 @@ from django.core import urlresolvers
 from django.http import HttpResponseRedirect
 
 from site_content.settings import ENABLE_BUILTIN_MEDIA, RTE_CONFIG_URI
-from site_content.models import InheritanceQuerySet, SitePage, SiteMenu, SiteMenuItem, MenuItemLink, MenuItemPage, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
+from site_content.models import InheritanceQuerySet, SitePage, SitePageTemplateSelection, SiteMenu, SiteMenuItem, MenuItemLink, MenuItemPage, SiteBlock, SitePageAlias, SitePageRedirect, SitePosition, SitePagePositionBlock
+
+
+class SitePageTemplateSelectionAdmin(ModelAdmin):
+    list_filter = ('is_system',)
+    list_display = ('label', 'description', 'template_path', 'is_system')
+
+site.register(SitePageTemplateSelection, SitePageTemplateSelectionAdmin)
 
 
 class SitePageAliasInline(StackedInline):

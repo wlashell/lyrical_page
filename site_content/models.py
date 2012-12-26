@@ -33,6 +33,16 @@ class InheritanceQuerySet(QuerySet):
                 yield obj
 
 
+class SitePageTemplateSelection(models.Model):
+    label = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    template_path = models.CharField(max_length=255, blank=True, null=True)
+    is_system = models.BooleanField(blank=True, default=False)
+
+    def __unicode__(self):
+        return u'%s' % self.label
+
+
 class SitePage(models.Model):
     site = models.ForeignKey(Site)
     url = models.CharField(max_length=255)

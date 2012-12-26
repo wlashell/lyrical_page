@@ -25,6 +25,7 @@
         <header>
             <a href="/"><img src="{{ STATIC_URL }}img/logo.png" alt="Logo"></a>
         </header>
+        {% block global-nav-block %}{% endblock global-nav-block %}
         {% endblock header-block %}
         {% block content-block %}
             <div class="content-block">

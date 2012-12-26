@@ -1,0 +1,29 @@
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.cache import cache
+
+from site_seo.models import SiteUrl
+
+
+class SiteSeoMiddleware(object):
+    # FIXME: This absolutely must be refactored before release.
+    # Development code ONLY
+    def process_request(self, request):
+        current_site = Site.objects.get_current()
+
+        url = request.path_info
+
+        if not url == '/':
+            if not url.endswith('/') and settings.APPEND_SLASH:
+                url = '%s/' % url
+            if not url.startswith('/'):
+                url = '/%s' % url
+
+        try:
+            siteurl = SiteUrl.objects.get(site=current_site, url=url)
+        except SiteUrl.DoesNotExist:
+            siteurl = SiteUrl()
+
+        request.site_seo = {'seo_title': siteurl.page_title,
+                            'seo_keywords': siteurl.page_keywords,
+                            'seo_description': siteurl.page_description}

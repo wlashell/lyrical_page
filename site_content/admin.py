@@ -46,7 +46,7 @@ class SitePageAdmin(ModelAdmin):
     fieldsets = (
         (None, {'fields': ('site', 'is_index', 'url', 'title', 'content_header', 'enable_rte', 'content')}),
         ('Meta Tags', {'classes': ('collapse closed',), 'fields': ('meta_description', 'meta_keywords')}),
-        ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template')})
+        ('Advanced', {'classes': ('collapse closed',), 'fields': ('page_class', 'template', 'custom_template')})
     )
 
     if ENABLE_BUILTIN_MEDIA:

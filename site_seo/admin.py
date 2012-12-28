@@ -14,3 +14,7 @@ class SiteUrlDefaultsAdmin(ModelAdmin):
     list_display = ('site',)
 
 site.register(SiteUrlDefaults, SiteUrlDefaultsAdmin)
+
+
+class SiteUrl404Admin(ModelAdmin):
+    list_display = ('site', 'url', 'date_created')

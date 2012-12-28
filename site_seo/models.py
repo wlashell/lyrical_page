@@ -1,6 +1,7 @@
-from django.db import models
+import datetime
 
 from django.contrib.sites.models import Site
+from django.db import models
 
 from site_content.models import SitePage
 
@@ -32,3 +33,14 @@ class SiteUrlDefaults(models.Model):
 
     def __unicode__(self):
         return 'SEO Default for site: %s' % self.site
+
+
+class SiteUrl404(models.Model):
+    site = models.ForeignKey(Site)
+    url = models.TextField(blank=True, null=True)
+    date_created = models.DateTimeField(default=datetime.datetime.now)
+    date_list_hit = models.DateTimeField(default=datetime.datetime.now, auto_now=True)
+    hit_cnt = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('url',)

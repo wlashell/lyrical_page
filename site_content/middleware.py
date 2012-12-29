@@ -89,6 +89,9 @@ class SitePageFallbackMiddleware(object):
             return site_page(request, request.path_info)
         
         except Http404:
+            if 'site_seo' in settings.INSTALLED_APPS:
+                import site_seo.common
+                site_seo.common.add_404_url(request)
             return response
         except:
             if settings.DEBUG:

@@ -2,7 +2,9 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 
-from site_seo.models import SiteUrl, SiteUrl404
+from site_seo.settings import ENABLED, COLLECT_404
+from site_seo.common import add_404_url
+from site_seo.models import SiteUrl
 
 
 class SiteSeoMiddleware(object):
@@ -29,18 +31,7 @@ class SiteSeoMiddleware(object):
                             'seo_description': siteurl.page_description}
 
     def process_response(self, request, response):
-        if response.status_code == 404:
-            try:
-                siteurl404 = SiteUrl404.objects.get(url=request.path_info)
-                siteurl404.hit_cnt += 1
-                siteurl404.save()
-
-            except SiteUrl404.DoesNotExist:
-                site = Site.objects.get_current()
-                siteurl404 = SiteUrl404()
-                siteurl404.url = request.path_info
-                siteurl404.site = site
-                siteurl404.hit_cnt = 1
-                siteurl404.save()
+        if response.status_code == 404 and COLLECT_404 and 'site_content' not in settings.INSTALLED_APPS:
+            add_404_url(request)
 
         return response

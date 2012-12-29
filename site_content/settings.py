@@ -2,6 +2,8 @@ import os
 
 from django.conf import settings
 
+ENABLED = getattr(settings, 'SITE_CONTENT_ENABLED', True)
+
 # helper paths
 SITE_CONTENT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_CONTENT_DOC_ROOT = os.path.join(SITE_CONTENT_ROOT, 'doc')

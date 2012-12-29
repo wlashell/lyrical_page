@@ -27,3 +27,8 @@ class SiteSeoMiddleware(object):
         request.site_seo = {'seo_title': siteurl.page_title,
                             'seo_keywords': siteurl.page_keywords,
                             'seo_description': siteurl.page_description}
+
+    def process_response(self, request, response):
+        if response.status_code == 404:
+            pass
+        return response

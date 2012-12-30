@@ -43,6 +43,10 @@ def site_page(request, url, extra_context=None):
             raise Http404
     
     if not sitepage:
+        if 'site_seo' in settings.INSTALLED_APPS and site_seo.settings.ENABLED:
+            import site_seo.common
+            site_seo.common.add_404_url(request)
+
         raise Http404
 
     if sitepage.custom_template:

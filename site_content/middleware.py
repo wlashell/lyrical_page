@@ -1,9 +1,10 @@
-from django.http import Http404
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.cache import cache
+from django.http import Http404
 
 from site_content.views import site_page
+
 
 def make_tls_property(default=None):
     """Creates a class-wide instance property with a thread-specific value."""
@@ -22,6 +23,7 @@ def make_tls_property(default=None):
 
         def _get_value(self):
             return getattr(self.local, 'value', default)
+
         def _set_value(self, value):
             self.local.value = value
         value = property(_get_value, _set_value)
@@ -30,6 +32,7 @@ def make_tls_property(default=None):
 
 _default_site_id = getattr(settings, 'SITE_ID', None)
 SITE_ID = settings.__class__.SITE_ID = make_tls_property()
+
 
 class SitePageFallbackMiddleware(object):
     def process_request(self, request):
@@ -79,21 +82,23 @@ class SitePageFallbackMiddleware(object):
             else:
                 SITE_ID.value = _default_site_id
 
-            cache.set(cache_key, SITE_ID.value, 5*60)
-    
+            cache.set(cache_key, SITE_ID.value, 5 * 60)
+
     def process_response(self, request, response):
         if response.status_code != 404:
             return response
-        
+
         try:
             return site_page(request, request.path_info)
-        
+
         except Http404:
             if 'site_seo' in settings.INSTALLED_APPS:
                 import site_seo.common
                 site_seo.common.add_404_url(request)
+
             return response
         except:
             if settings.DEBUG:
                 raise
+
             return response

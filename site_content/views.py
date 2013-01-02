@@ -59,6 +59,12 @@ def site_page(request, url, extra_context=None):
     if sitepage.login_required and not request.user.is_authenticated():
         return redirect_to_login(request.path)
 
+# FIXME: This should evaluated for better handling
+    if getattr(request, 'site_seo', False):
+        sitepage.title = request.site_seo['seo_title']
+        sitepage.meta_keywords = request.site_seo['seo_keywords']
+        sitepage.meta_description = request.site_seo['seo_description']
+
     context_dict = {'sitepage': sitepage, 'request_path': request.path}
     if extra_context:
         context_dict = dict(context_dict, **extra_context)

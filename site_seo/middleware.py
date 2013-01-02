@@ -4,7 +4,7 @@ from django.core.cache import cache
 
 from site_seo.settings import ENABLED, COLLECT_404
 from site_seo.common import add_404_url
-from site_seo.models import SiteUrl
+from site_seo.models import SiteUrl, SiteUrlDefaults
 
 
 class SiteSeoMiddleware(object):
@@ -23,8 +23,15 @@ class SiteSeoMiddleware(object):
 
         try:
             siteurl = SiteUrl.objects.get(site=current_site, url=url)
+
         except SiteUrl.DoesNotExist:
-            siteurl = SiteUrl()
+            try:
+                siteurl = SiteUrlDefaults.objects.get(site=current_site)
+
+            except SiteUrlDefaults.DoesNotExist:
+                siteurl = SiteUrl(page_title='',
+                                  page_keywords='',
+                                  page_description='')
 
         request.site_seo = {'seo_title': siteurl.page_title,
                             'seo_keywords': siteurl.page_keywords,

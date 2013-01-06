@@ -1,4 +1,1 @@
-__version__ = "1.1.0"
-__authors__ = [
-    "Will LaShell <wlashell@lyrical.net>",
-]
+__version__ = '2.0.0p1'

@@ -1,4 +1,4 @@
-__version__ = '2.0.0p1'
+__version__ = '2.0.0p2'
 
 from collections import deque
 

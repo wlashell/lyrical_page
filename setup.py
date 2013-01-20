@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='lyrical_page',
-    version='2.0.0p1',
+    version='2.0.0p2',
     description='Website content system based on a mashup of ideas from the Django contrib flatpage appp, joomla!, and many years of systems development..',
     author='Will LaShell',
     author_email='wlashell@lyrical.net',

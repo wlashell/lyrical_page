@@ -3,6 +3,7 @@ include NOTICE
 include AUTHORS
 recursive-include site_content/templates *
 recursive-include site_content/static *
+recursive-include site_content/doc *
 recursive-include site_seo/templates *
 recursive-include site_seo/static *
 recursive-include site_slider/templates *

@@ -18,5 +18,6 @@ site.register(SiteUrlDefaults, SiteUrlDefaultsAdmin)
 
 class SiteUrl404Admin(ModelAdmin):
     list_display = ('site', 'url', 'date_created', 'hit_cnt')
+    readonly_fields = ('hit_cnt', 'date_created',)
 
 site.register(SiteUrl404, SiteUrl404Admin)

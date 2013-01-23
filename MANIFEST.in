@@ -1,6 +1,7 @@
 include LICENSE
 include NOTICE
 include AUTHORS
+include ChangeLog
 recursive-include site_content/templates *
 recursive-include site_content/static *
 recursive-include site_content/doc *

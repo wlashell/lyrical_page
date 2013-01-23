@@ -1,0 +1,7 @@
+2013-01-23  Will LaShell <wlashell@lyrical.net>
+
+    * ChangeLog: Implemented changelog tracking for releases. Missing files from before
+    * normalize.css: Update to version 1.1.0
+    * jquery-1.9.0.min.js: Update jquery to version 1.9.0
+    * jquery-1.8.3.min.js: Removed deprecated jquery
+    * Bump version numbers for new release

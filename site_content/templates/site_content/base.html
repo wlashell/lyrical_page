@@ -17,7 +17,7 @@
         {% block script-top-block %}{% endblock script-top-block %}
         {% block script-top-extra-block %}{% endblock script-top-extra-block %}
     </head>
-    <body class="{{ sitepage.page_class }}">
+    <body class="{% block body-class-block %}{{ sitepage.page_class }}{% endblock body-class-block %}">
     {% block wrapper-block %}
         <div class="wrapper-block">
         {% block content-wrapper-block %}

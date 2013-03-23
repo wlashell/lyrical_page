@@ -64,7 +64,7 @@ class Migration(SchemaMigration):
 
         # Adding field 'SiteMenu.site'
         db.add_column('site_content_sitemenu', 'site',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['sites.Site']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sites.Site']),
                       keep_default=False)
 
         # Adding field 'SiteMenu.show_label'

@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'SitePagePositionBlock.siteblocks'
         db.add_column('site_content_sitepagepositionblock', 'siteblocks',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['site_content.SiteBlock']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['site_content.SiteBlock']),
                       keep_default=False)
 
         # Removing M2M table for field siteblocks on 'SitePagePositionBlock'
